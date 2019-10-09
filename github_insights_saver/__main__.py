@@ -8,7 +8,7 @@ if sys.version_info < (3,):
     input = raw_input
 
 
-def main(args):
+def main(argv=None):
     filename ='insight_saver.db'
 
     create_database(filename)
@@ -21,4 +21,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()
