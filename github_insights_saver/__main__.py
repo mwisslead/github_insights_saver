@@ -4,6 +4,10 @@ import getpass
 from . import create_database, save_repo_data
 
 
+if sys.version_info < (3,):
+    input = raw_input
+
+
 def main(args):
     if args and args[0] == 'init':
         create_database()
