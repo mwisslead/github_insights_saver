@@ -7,8 +7,8 @@ def create_database(filename):
     conn = sqlite3.connect(filename)
     c = conn.cursor()
 
-    c.execute('''CREATE TABLE views (id integer primary key, repository text, timestamp text, count integer, uniques integer, UNIQUE (repository, timestamp))''')
-    c.execute('''CREATE TABLE clones (id integer primary key, repository text, timestamp text, count integer, uniques integer, UNIQUE (repository, timestamp))''')
+    c.execute('''CREATE TABLE IF NOT EXISTS views (id integer primary key, repository text, timestamp text, count integer, uniques integer, UNIQUE (repository, timestamp))''')
+    c.execute('''CREATE TABLE IF NOT EXISTS clones (id integer primary key, repository text, timestamp text, count integer, uniques integer, UNIQUE (repository, timestamp))''')
 
     conn.commit()
     conn.close()
