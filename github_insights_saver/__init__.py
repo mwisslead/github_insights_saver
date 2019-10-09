@@ -3,7 +3,7 @@ import sqlite3
 from github import Github
 
 
-def create_database(filename='insight_saver.db'):
+def create_database(filename):
     conn = sqlite3.connect(filename)
     c = conn.cursor()
 
@@ -14,7 +14,7 @@ def create_database(filename='insight_saver.db'):
     conn.close()
 
 
-def save_repo_data(username, password, filename='insight_saver.db'):
+def save_repo_data(username, password, filename):
     session = Github(username, password)
 
     user = session.get_user()

@@ -9,14 +9,15 @@ if sys.version_info < (3,):
 
 
 def main(args):
+    filename ='insight_saver.db'
     if args and args[0] == 'init':
-        create_database()
+        create_database(filename)
 
     print('Enter github credentials')
     username = input('Username: ')
     password = getpass.getpass('Password: ')
 
-    save_repo_data(username, password)
+    save_repo_data(username, password, filename)
 
 
 if __name__ == '__main__':
