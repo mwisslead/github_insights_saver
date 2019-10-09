@@ -1,3 +1,4 @@
+import datetime as dt
 import sqlite3
 
 from github import Github
@@ -9,6 +10,7 @@ def create_database(filename):
 
     c.execute('''CREATE TABLE IF NOT EXISTS views (id integer primary key, repository text, timestamp text, count integer, uniques integer, UNIQUE (repository, timestamp))''')
     c.execute('''CREATE TABLE IF NOT EXISTS clones (id integer primary key, repository text, timestamp text, count integer, uniques integer, UNIQUE (repository, timestamp))''')
+    c.execute('''CREATE TABLE IF NOT EXISTS sync (id integer primary key, repository text, timestamp text, stars integer, watchers integer, forks integer, UNIQUE (repository, timestamp))''')
 
     conn.commit()
     conn.close()
@@ -19,9 +21,11 @@ def save_repo_data(username, password, filename):
 
     user = session.get_user()
 
+    timestamp = dt.datetime.utcnow().isoformat() + 'Z'
     for repo in session.get_user().get_repos(affiliation='owner'):
         conn = sqlite3.connect(filename)
         c = conn.cursor()
+        c.execute('''INSERT INTO sync (repository , timestamp, stars, watchers, forks) VALUES (?, ?, ?, ?, ?)''', (repo.name, timestamp, repo.stargazers_count, repo.subscribers_count, repo.forks_count))
         for clone in repo.get_clones_traffic()['clones']:
             clone = clone.raw_data
             try:
