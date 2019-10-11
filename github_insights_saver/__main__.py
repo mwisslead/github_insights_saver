@@ -1,5 +1,6 @@
 import sys
 import getpass
+import github
 
 from . import create_database, save_repo_data
 
@@ -17,7 +18,14 @@ def main(argv=None):
     username = input('Username: ')
     password = getpass.getpass('Password: ')
 
-    save_repo_data(username, password, filename)
+    try:
+        save_repo_data(username, password, filename)
+    except github.BadCredentialsException:
+        print('Unknown credentials, exiting.')
+        sys.exit(1)
+    except github.GithubException as e:
+        print(str(e))
+        sys.exit(1)
 
 
 if __name__ == '__main__':
