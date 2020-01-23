@@ -14,9 +14,20 @@ def main(argv=None):
 
     create_database(filename)
 
-    print('Enter github credentials')
-    username = input('Username: ')
-    password = getpass.getpass('Password: ')
+    try:
+        # Create an OAuth token by visiting https://github.com/settings/tokens
+        # and generate a token with the scope: public_repo
+
+        with open('token') as f:
+            username = ''
+            password = f.readline().strip()
+            print('Using saved OAuth token')
+    except FileNotFoundError:
+        # Basic authentication method is deprecated
+
+        print('Enter GitHub credentials')
+        username = input('Username (or blank if using OAuth token): ')
+        password = getpass.getpass('Password (or OAuth token): ')
 
     try:
         save_repo_data(username, password, filename)
